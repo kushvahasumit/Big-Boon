@@ -66,7 +66,7 @@ export const popularProducts=[
    {
       id:1,
       img:img7,
-      // cat:"women",
+     
    },
    {
       id:2,

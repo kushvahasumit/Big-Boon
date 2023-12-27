@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -7,6 +7,7 @@ import Newsletter from '../components/Newsletter'
 import image from '../images/ladybag.jpg'
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
+import { useLocation } from 'react-router-dom'
 
 const Container = styled.div`
     
@@ -103,6 +104,19 @@ const Button = styled.button`
 
 
 const Product = () => {
+    const location = useLocation();
+    const id = location.pathname.split("/")[2]
+
+    const [product,setProduct] = useState({})
+    useEffect(()=>{
+        const getProduct = async ()=>{
+            try {
+                
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    },[id])
   return (
     <Container>
       <Navbar/>

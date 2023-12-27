@@ -19,32 +19,49 @@ const Products = ({cat,filters,sort}) => {
   useEffect(()=>{
   const getProducts = async()=>{
      try {
-      const res = await axios.get( cat ? `http://localhost:5000/api/product?category=${cat}` : "http://localhost:5000/api/product" )
-       
+      const res = await axios.get(cat ? `http://localhost:5000/api/product?category=${cat}` :"http://localhost:5000/api/product"  )
+      //  console.log(res)
       setProducts(res.data)
      } catch (error) {
-       console.log(error)
+      console.log(error)
      }
   }
   getProducts()
   },[cat])
+console.log("All products ::",products)
+  useEffect(() => {
+    console.log('Products:', products);
+    console.log('Cat:', cat);
+    console.log('Filters:', filters);
+  
+    cat && setFilterProducts(
+      products.filter((item) => Object.entries(filters).every(([key, value]) => item[key].includes(value)))
+    );
+  }, [products, cat, filters]);
+  
+    console.log("Filtered Products :: ",filterProducts)
 
-  useEffect(()=>{
-      cat && setFilterProducts(
-        products.filter((item) => 
-        Object.entries(filters).every(([key,value])=> 
-        item[key].includes(value))
-        )
-      )
-  },[products,cat,filters])
+    useEffect(()=>{
+      if((sort === "newest")){
+        setFilterProducts((prev)=>
+        [...prev].sort((a,b)=> a.createdAt - b.createdAt))
+      }else  if((sort === "asc")){
+        setFilterProducts((prev)=>
+        [...prev].sort((a,b)=> a.price - b.price))
+      } else {
+        setFilterProducts((prev)=>
+        [...prev].sort((a,b)=> b.price - a.price))
+      }
+    },[sort])
 
-  // console.log(products)
 
   return (
     <Container>
-      {popularProducts.map((item)=>(
-        <Product item={item} key={item.id}/>
-      ))}
+      {cat
+      ? filterProducts.map((item)=>(<Product item={item} key={item.id}/>)) 
+      : products
+      .slice(0,8)
+      .map((item)=>(<Product item={item} key={item.id}/>))}
     </Container>
   )
 }
