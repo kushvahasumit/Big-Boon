@@ -8,6 +8,7 @@ import image from '../images/ladybag.jpg'
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { useLocation } from 'react-router-dom'
+import { publicRequest } from '../requestMethods'
 
 const Container = styled.div`
     
@@ -106,56 +107,73 @@ const Button = styled.button`
 const Product = () => {
     const location = useLocation();
     const id = location.pathname.split("/")[2]
-
     const [product,setProduct] = useState({})
+    const [quantity,setquantity] = useState(1)
+    const amount = product.price*quantity;
+
+
+    const handleQuantity = (type)=>{
+        if(type==="dec"){
+           quantity>1 && setquantity(quantity-1)
+            
+        }else{
+            setquantity(quantity+1)
+             
+        }
+    }
+    
+    const handleCart =()=>{
+        
+    }
+
+               
     useEffect(()=>{
-        const getProduct = async ()=>{
+        const getProduct = async ()=>{ 
             try {
-                
+                const res = await publicRequest.get("/product/find/"+id)
+                setProduct(res.data)
+                console.log("this is response",res)
             } catch (error) {
                 console.log(error)
             }
         }
+        getProduct()
     },[id])
+
+
+    console.log("this is final product",product)
   return (
     <Container>
       <Navbar/>
       <Announcement/>
       <Wrapper>
         <ImgContainer>
-            <Image src={image}/>
+            <Image src={product.img}/>
         </ImgContainer>
         <InfoContainer>
-            <Title>Denim Jumpsuit</Title>
-            <Desc>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam rem neque aliquid, quaerat hic consequatur molestiae asperiores similique vel alias! Quas culpa sint iste hic aut, quis pariatur similique eveniet quasi ipsa tenetur perspiciatis voluptatibus quo voluptatum possimus, excepturi dolorem! Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam vel suscipit, nobis odio perferendis quam voluptatibus ab totam dolorum maiores deserunt non soluta cupiditate laborum reprehenderit distinctio necessitatibus impedit, itaque consequuntur eum veniam. Magni quibusdam debitis optio dicta est! Commodi neque omnis repellendus perferendis rerum esse enim adipisci. Maxime?</Desc>
-            <Price>$30</Price>
+            <Title>{product.title}</Title>
+            <Desc>{product.desc}</Desc>
+            <Price >${amount}</Price>
             <FilterContainer>
                 <Filter>
                     <FilterTitle>Color</FilterTitle>
-                    <FilterColor color="black" />
-                    <FilterColor color="darkblue" />
-                    <FilterColor color="gray" />
 
+                     <FilterColor color={product.color}/>   
                 </Filter>
                 <Filter>
                     <FilterTitle>Size</FilterTitle>
                     <FilterSize>
-                     <FilterSizeOption>XS</FilterSizeOption>
-                     <FilterSizeOption>S</FilterSizeOption>
-                     <FilterSizeOption>M</FilterSizeOption>
-                     <FilterSizeOption>L</FilterSizeOption>
-                     <FilterSizeOption>XL</FilterSizeOption>
-
+                     <FilterSizeOption>{product.size}</FilterSizeOption>
                     </FilterSize>
                 </Filter>
             </FilterContainer>
             <AddContainer>
                 <AmountContainer>
-                    <RemoveIcon/>
-                    <Amount>1</Amount>
-                    <AddIcon/>
+                    <RemoveIcon onClick={()=>handleQuantity("dec")} />
+                    <Amount>{quantity}</Amount>
+                    <AddIcon onClick={()=>handleQuantity("inc")}/>
                 </AmountContainer>
-                <Button>Add to Cart</Button>
+                <Button onClick={handleCart}>Add to Cart</Button>
             </AddContainer>
         </InfoContainer>
       </Wrapper>
