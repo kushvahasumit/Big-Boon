@@ -7,6 +7,7 @@ import blackshirt from '../images/blackshirt.jpg'
 import Frock from '../images/frock.jpg'
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
+import { useSelector } from 'react-redux'
 
 const Container = styled.div`
     
@@ -137,6 +138,8 @@ const Button = styled.button`
  
 
 const Cart = () => {
+    const cart = useSelector(state=>state.cart)
+    console.log(cart)
   return (
     <Container>
       <Navbar/>
@@ -155,11 +158,14 @@ const Cart = () => {
         </Top>
         <Bottom>
             <Info>
-                <Product>
+               { cart.products.map(product => (
+
+            
+               <Product>
                  <ProductDetail>
-                <Image src={blackshirt} />
+                <Image src={product.img} />
                 <Details>
-                    <ProductName><b>Product:</b> JESSIE ALL BLACK </ProductName>
+                    <ProductName><b>Product:</b> {product.title}</ProductName>
                     <ProductId><b>ID:</b> 9557911 </ProductId>
                     <ProductColor color='black'/>
                     <ProductSize><b>Size:</b> 15.5 </ProductSize>
@@ -177,29 +183,10 @@ const Cart = () => {
                      <ProductPrice>$30</ProductPrice>
                 </PriceDetail> 
                 </Product>
-                <Hr/>
-                <Product>
-                 <ProductDetail>
-                <Image src={Frock} />
-                <Details>
-                    <ProductName><b>Product:</b> YELLOW FLOWERED FROCK </ProductName>
-                    <ProductId><b>ID:</b> 9557912 </ProductId>
-                    <ProductColor color='YELLOW'/>
-                    <ProductSize><b>Size:</b> 19.8 </ProductSize>
-
-                </Details>
-                </ProductDetail>  
-                <PriceDetail>
-                     <ProductAmountContainer>
-                      <AddIcon/>
-                     <ProductAmount>
-                        4
-                     </ProductAmount>
-                     <RemoveIcon/>
-                     </ProductAmountContainer>
-                     <ProductPrice>$40</ProductPrice>
-                </PriceDetail> 
-                </Product>
+                 ))
+                }
+                
+                  
             </Info>
             <Summary>
                 <SummeryTitle>ORDER SUMMERY</SummeryTitle>

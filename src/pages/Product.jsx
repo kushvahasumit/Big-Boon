@@ -9,6 +9,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { useLocation } from 'react-router-dom'
 import { publicRequest } from '../requestMethods'
+import { addProduct } from '../redux/cartRedux'
+import { useDispatch } from 'react-redux'
 
 const Container = styled.div`
     
@@ -109,7 +111,8 @@ const Product = () => {
     const id = location.pathname.split("/")[2]
     const [product,setProduct] = useState({})
     const [quantity,setquantity] = useState(1)
-    const amount = product.price*quantity;
+    // const amount = product.price*quantity;
+    const dispatch = useDispatch();
 
 
     const handleQuantity = (type)=>{
@@ -123,7 +126,7 @@ const Product = () => {
     }
     
     const handleCart =()=>{
-        
+        dispatch(addProduct({ ...product,quantity})) 
     }
 
                
@@ -153,7 +156,7 @@ const Product = () => {
         <InfoContainer>
             <Title>{product.title}</Title>
             <Desc>{product.desc}</Desc>
-            <Price >${amount}</Price>
+            <Price >${product.price}</Price>
             <FilterContainer>
                 <Filter>
                     <FilterTitle>Color</FilterTitle>
