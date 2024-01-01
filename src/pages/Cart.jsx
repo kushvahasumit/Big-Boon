@@ -132,30 +132,29 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
-//   const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const onToken =   (token) => {
-   
     setStripeToken(token);
     console.log("this is on tokne :: ",token)
   };
    
 
-//   useEffect(()=>{
-//     const makeRequest = async ()=>{
-//         try {
-//             const res = await userRequest.post("/checkout/payment",{
-//                 tokenID : stripeToken.id,
-//                 amount : 500,
-//             })
-//             console.log('Server Response:', res.data);
-//             navigate('/sucess',{data:res.data})
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-//    stripeToken && makeRequest()
-//   },[stripeToken,cart.total,navigate]);
+  useEffect(()=>{
+    const makeRequest = async ()=>{
+        try {
+            const res = await userRequest.post("/checkout/payment",{
+                tokenID : stripeToken.id,
+                amount : 500,
+            })
+            console.log('Server Response:', res.data);
+            // navigate('/sucess',{data:res.data})
+        } catch (error) {
+            console.log(error)
+        }
+    }
+   stripeToken && makeRequest()
+  },[stripeToken,cart.total,navigate]);
 
   console.log("this is our cart ::", cart);
   console.log("this is stripe token :: ", stripeToken);
