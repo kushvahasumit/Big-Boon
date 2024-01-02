@@ -144,11 +144,11 @@ const Cart = () => {
     const makeRequest = async ()=>{
         try {
             const res = await userRequest.post("/checkout/payment",{
-                tokenID : stripeToken.id,
+                tokenId : stripeToken.id,
                 amount : 500,
             })
             console.log('Server Response:', res.data);
-            // navigate('/sucess',{data:res.data})
+            navigate('/sucess',{data:res.data})
         } catch (error) {
             console.log(error)
         }

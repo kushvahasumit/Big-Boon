@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../redux/apiCalls'
 
 const Container = styled.div`
     width: 100vw;
@@ -45,9 +47,29 @@ const Button = styled.button`
    background-color: teal;
    color: white;
    cursor: pointer;
+   margin-bottom: 10px;
+   &:disabled{
+    color: green;
+    cursor: not-allowed;
+   }
+`
+
+const Error = styled.span`
+  color: red;
 `
 
 const Login = () => {
+  const [username,setUsername] = useState("");
+  const [password,setPassword] = useState("");
+  const dispatch = useDispatch()
+
+  const {isfetching, error} = useSelector((state) => state.user)
+
+const handleClick = (e)=>{
+  e.preventDefault()
+  login(dispatch,{username,password})
+}
+
   return (
     <Container>
        
@@ -58,9 +80,10 @@ const Login = () => {
         </Title>
         <Form>
             
-            <Intput placeholder="userName" />
-            <Intput placeholder="password" />
-            <Button> LOGIN ACCOUNT </Button>
+            <Intput placeholder="username" onChange={(e) => setUsername(e.target.value)} />
+            <Intput placeholder="password" type='password' onChange={(e) => setPassword(e.target.value)}/>
+            <Button onClick={handleClick} disabled={isfetching} > LOGIN ACCOUNT </Button>
+           {error && <Error>SOMETHING WENT WRONG</Error>}
             <Link>DON'T REMEMBER YOUR PASSWORD?</Link>
             <Link>CREATE A NEW ACCOUNT</Link>
 
