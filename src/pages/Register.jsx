@@ -1,18 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import Announcement from '../components/Announcement'
-import old from '../images/olds.jpg'
  
 
 const Container = styled.div`
     width: 100vw;
     height: 100vh;
-    background-size: cover;
+    background-repeat: inherit;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-image: url(https://scontent.fdel1-5.fna.fbcdn.net/v/t39.30808-6/412186631_668851655420283_4980743692879694222_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=783fdb&_nc_ohc=Mk0By_ePo8oAX_ad4XV&_nc_ht=scontent.fdel1-5.fna&oh=00_AfCBq0MgjH2r5R0swlIub9a0fVyOT0lgmH-BrLo-go2wUA&oe=659616BC);
     
 `
 const Wrapper = styled.div`

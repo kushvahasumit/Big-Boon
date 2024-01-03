@@ -7,9 +7,9 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { useSelector } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
-import {userRequest} from '../requestMethods'
-import { useNavigate } from 'react-router-dom';
-
+import { userRequest } from "../requestMethods";
+import { useNavigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 
 const KEY = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 console.log("This is the key:", KEY);
@@ -132,29 +132,29 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
-  const navigate = useNavigate()
-
-  const onToken =   (token) => {
+  const navigate = useNavigate();
+  const weight = cart.quantity;
+  const onToken = (token) => {
     setStripeToken(token);
-    console.log("this is on tokne :: ",token)
+    console.log("this is on tokne :: ", token);
   };
-   
 
-  useEffect(()=>{
-    const makeRequest = async ()=>{
-        try {
-            const res = await userRequest.post("/checkout/payment",{
-                tokenId : stripeToken.id,
-                amount : 500,
-            })
-            console.log('Server Response:', res.data);
-            navigate('/sucess',{data:res.data})
-        } catch (error) {
-            console.log(error)
-        }
-    }
-   stripeToken && makeRequest()
-  },[stripeToken,cart.total,navigate]);
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: cart.total * 100,
+          currency: "USD",
+        });
+        console.log("Server Response:", res.data);
+        navigate("/sucess");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken, cart.total, navigate]);
 
   console.log("this is our cart ::", cart);
   console.log("this is stripe token :: ", stripeToken);
@@ -168,7 +168,7 @@ const Cart = () => {
         <Top>
           <TopButton>CONTINUE SHOPING</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
+            <TopText>Shopping Bag({weight})</TopText>
             <TopText>Your Wishlist(0)</TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
