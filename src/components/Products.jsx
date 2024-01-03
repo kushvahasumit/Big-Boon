@@ -19,8 +19,8 @@ const Products = ({ cat, filters, sort }) => {
       try {
         const res = await axios.get(
           cat
-            ? `http://localhost:5000/api/product?category=${cat}`
-            : "http://localhost:5000/api/product"
+            ? `https://bigboon.onrender.com/api/product?category=${cat}`
+            : "https://bigboon.onrender.com/api/product"
         );
         //  console.log(res)
         setProducts(res.data);
