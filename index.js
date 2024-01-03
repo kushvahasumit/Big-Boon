@@ -1,4 +1,4 @@
-const { config } = require("dotenv");
+require("dotenv").config();
 const express = require("express")
 const app = express()
 const mongoose = require("mongoose");
@@ -11,7 +11,7 @@ const stripeRoute = require("./routes/stripe")
 const cors = require("cors")
 
 
-config({ path: path.resolve(__dirname, '../.env') });
+
 mongoose.connect(process.env.MONGO_URL).then(()=>{
     console.log("Connected with DB")
 }).catch((err)=>{
