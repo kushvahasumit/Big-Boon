@@ -68,6 +68,7 @@ const Login = () => {
     login(dispatch, { username, password });
   };
 
+  console.log(dispatch)
   return (
     <Container>
       <Wrapper>
