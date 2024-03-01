@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "file:///i%3A/Node%20js/my-ecom/.github/workflows/deploy.yaml"
+    }
+}
